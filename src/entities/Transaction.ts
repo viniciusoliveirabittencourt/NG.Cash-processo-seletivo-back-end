@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, ManyToOne, JoinColumn, PrimaryColumn } from "typeorm";
+import { Account } from "./Account";
 
 @Entity("Transactions")
 export class Transactions {
@@ -10,4 +11,12 @@ export class Transactions {
 
   @Column({ type: "timestamptz" })
   createdAt: Date;
+
+  @ManyToOne(() => Account, (account) => account.transaction_debit)
+  @JoinColumn({ name: "debitedAccountId" })
+  debitedAccountId: Account;
+
+  @ManyToOne(() => Account, (account) => account.transaction_credit)
+  @JoinColumn({ name: "creditedAccountId" })
+  creditedAccountId: Account;
 }
