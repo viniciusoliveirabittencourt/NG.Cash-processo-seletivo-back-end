@@ -6,5 +6,5 @@ export class Account {
   id: number;
 
   @Column({ type: "text" })
-  balance: string
+  balance: string;
 }
