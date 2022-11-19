@@ -6,7 +6,7 @@ export class Transactions {
   @PrimaryColumn()
   id: number;
 
-  @Column({ type: "number" })
+  @Column({ type: "decimal" })
   value: number;
 
   @Column({ type: "timestamptz" })
