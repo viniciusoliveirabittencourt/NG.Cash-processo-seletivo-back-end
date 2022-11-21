@@ -1,17 +1,58 @@
+import bcrypt from 'bcryptjs'
+import { Account } from "../entities/Account";
+import { User } from "../entities/User";
 import IBodyUser from "../interface/IBodyUser.interface";
 import accountRepository from "../repositories/accountRepository";
 import userRespository from "../repositories/userRespository";
 
 export default class serviceClass {
-  public createUser = async (user: IBodyUser): Promise<> => {
+  private errorConsole = (e: any) => {
+    console.error("Internal error!")
+    console.error(e)
+  }
+
+  public createUser = async ({ username, password }: IBodyUser): Promise<User | undefined> => {
+    const account = await this.createAccount(username)
+
+    if (!account) {
+      return undefined
+    }
+
     try {
-      
+      const newUser = userRespository.create({
+        username,
+        password: bcrypt.hashSync(password),
+        accountId: account,
+      })
+
+      await userRespository.save(newUser)
+
+      return newUser
+    } catch (e) {
+      this.errorConsole(e)
+      await this.deleteAccount(account.id)
+      return undefined
     }
   }
 
-  private createAccount = async (username: string): Promise<> => {
+  private deleteAccount = async (id: number) => {
     try {
-      const newAccount = accountRepository.create({ balance: "100" })
+      await accountRepository.delete(id)
+    } catch (e) {
+      this.errorConsole(e)
+    }
+  }
+
+  private createAccount = async (username: string): Promise<Account | undefined> => {
+    try {
+      const newAccount = accountRepository.create({ balance: 100 })
+
+      await accountRepository.save(newAccount)
+
+      return newAccount
+    } catch (e) {
+      this.errorConsole(e)
+      return undefined
     }
   }
 }
