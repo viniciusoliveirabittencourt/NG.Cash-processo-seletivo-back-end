@@ -7,8 +7,7 @@ import userRespository from "../repositories/userRespository";
 
 export default class serviceClass {
   private errorConsole = (e: any) => {
-    console.error("Internal error!");
-    console.error(e);
+    console.error("Internal error!\n" + e);
   };
 
   public createUser = async ({
