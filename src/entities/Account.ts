@@ -13,8 +13,8 @@ export class Account {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "text" })
-  balance: string;
+  @Column({ type: "decimal" })
+  balance: number;
 
   @OneToOne(() => User, (user) => user.accountId)
   user: User;
