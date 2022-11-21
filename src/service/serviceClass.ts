@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs'
+import bcrypt from "bcryptjs";
 import { Account } from "../entities/Account";
 import { User } from "../entities/User";
 import IBodyUser from "../interface/IBodyUser.interface";
@@ -7,15 +7,18 @@ import userRespository from "../repositories/userRespository";
 
 export default class serviceClass {
   private errorConsole = (e: any) => {
-    console.error("Internal error!")
-    console.error(e)
-  }
+    console.error("Internal error!");
+    console.error(e);
+  };
 
-  public createUser = async ({ username, password }: IBodyUser): Promise<User | undefined> => {
-    const account = await this.createAccount(username)
+  public createUser = async ({
+    username,
+    password,
+  }: IBodyUser): Promise<User | undefined> => {
+    const account = await this.createAccount(username);
 
     if (!account) {
-      return undefined
+      return undefined;
     }
 
     try {
@@ -23,36 +26,38 @@ export default class serviceClass {
         username,
         password: bcrypt.hashSync(password),
         accountId: account,
-      })
+      });
 
-      await userRespository.save(newUser)
+      await userRespository.save(newUser);
 
-      return newUser
+      return newUser;
     } catch (e) {
-      this.errorConsole(e)
-      await this.deleteAccount(account.id)
-      return undefined
+      this.errorConsole(e);
+      await this.deleteAccount(account.id);
+      return undefined;
     }
-  }
+  };
 
   private deleteAccount = async (id: number) => {
     try {
-      await accountRepository.delete(id)
+      await accountRepository.delete(id);
     } catch (e) {
-      this.errorConsole(e)
+      this.errorConsole(e);
     }
-  }
+  };
 
-  private createAccount = async (username: string): Promise<Account | undefined> => {
+  private createAccount = async (
+    username: string
+  ): Promise<Account | undefined> => {
     try {
-      const newAccount = accountRepository.create({ balance: 100 })
+      const newAccount = accountRepository.create({ balance: 100 });
 
-      await accountRepository.save(newAccount)
+      await accountRepository.save(newAccount);
 
-      return newAccount
+      return newAccount;
     } catch (e) {
-      this.errorConsole(e)
-      return undefined
+      this.errorConsole(e);
+      return undefined;
     }
-  }
+  };
 }
