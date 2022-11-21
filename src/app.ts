@@ -8,6 +8,6 @@ AppDataSource.initialize().then(() => {
 
   app.get('/', (req, res) => res.send('Hello World'))
 
-  console.log(`O servidor está rodando na porta: ${process.env.PORT}`)
+  console.log(`O servidor está rodando na porta: ${3001}`)
   app.listen(3001)
 })
