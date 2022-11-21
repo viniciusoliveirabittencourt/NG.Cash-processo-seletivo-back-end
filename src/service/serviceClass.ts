@@ -14,7 +14,7 @@ export default class serviceClass {
     username,
     password,
   }: IBodyUser): Promise<User | undefined> => {
-    const account = await this.createAccount(username);
+    const account = await this.createAccount();
 
     if (!account) {
       return undefined;
@@ -45,9 +45,7 @@ export default class serviceClass {
     }
   };
 
-  private createAccount = async (
-    username: string
-  ): Promise<Account | undefined> => {
+  private createAccount = async (): Promise<Account | undefined> => {
     try {
       const newAccount = accountRepository.create({ balance: 100 });
 
