@@ -6,6 +6,6 @@ const route = Router();
 
 const userController = new controllerCon();
 
-route.post("/", registerBodyVerify, userController.register);
+route.post("/register", registerBodyVerify, userController.register);
 
 export default route;
