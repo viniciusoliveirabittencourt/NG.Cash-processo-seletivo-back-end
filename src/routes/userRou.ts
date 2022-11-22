@@ -1,7 +1,11 @@
 import { Router } from "express";
+import controllerCon from "../controller/controllerClass";
+import registerBodyVerify from "../middleware/registerBodyVerify";
 
-const route = Router()
+const route = Router();
 
-route.post('/', )
+const userController = new controllerCon();
 
-export default route
+route.post("/", registerBodyVerify, userController.register);
+
+export default route;

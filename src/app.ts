@@ -3,12 +3,12 @@ import { AppDataSource } from "./data-source";
 import routes from "./routes";
 
 AppDataSource.initialize().then(() => {
-  const app = express()
+  const app = express();
 
-  app.use(express.json())
+  app.use(express.json());
 
-  app.use(routes.userRou)
+  app.use("/register", routes.userRou);
 
-  console.log(`O servidor está rodando na porta: ${3001}`)
-  app.listen(3001)
-})
+  console.log(`O servidor está rodando na porta: ${3001}`);
+  app.listen(3001);
+});
