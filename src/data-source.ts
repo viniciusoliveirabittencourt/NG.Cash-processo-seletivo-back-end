@@ -9,6 +9,6 @@ export const AppDataSource = new DataSource({
   password: "postgres",
   database: "ngcashdb",
   port: 5432,
-  entities: [`${__dirname}/**/entities/*.{ts,js}`],
-  migrations: [`${__dirname}/**/migrations/*.{ts,js}`],
+  entities: [`${__dirname}/**/model/entities/*.{ts,js}`],
+  migrations: [`${__dirname}/**/model/migrations/*.{ts,js}`],
 });

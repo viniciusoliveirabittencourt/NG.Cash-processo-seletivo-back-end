@@ -18,4 +18,17 @@ export default class controllerCon {
       dataReturn,
     });
   };
+
+  public login = async (req: Request, res: Response):Promise<Response> => {
+    const { username, password }: IBodyUser = req.body;
+
+    const { message, status, dataReturn } = await this.myService.loginUser({
+      username,
+      password,
+    });
+
+    if (status !== 200) {
+      return res.status(status).send({ message })
+    }
+  }
 }

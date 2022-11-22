@@ -2,7 +2,7 @@ import "reflect-metadata";
 import sinon from "sinon";
 import chai from "chai";
 import serviceClass from "../src/service/serviceClass";
-import accountRepository from "../src/repositories/accountRepository";
+import accountRepository from "../src/model/repositories/accountRepository";
 
 const expect = chai.expect;
 

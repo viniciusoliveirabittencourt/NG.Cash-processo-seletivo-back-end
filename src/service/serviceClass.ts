@@ -1,14 +1,46 @@
 import bcrypt from "bcryptjs";
-import { Account } from "../entities/Account";
-import { User } from "../entities/User";
+import { Account } from "../model/entities/Account";
+import { User } from "../model/entities/User";
 import IBodyUser from "../interface/IBodyUser.interface";
 import IReturnService from "../interface/IReturnService";
-import accountRepository from "../repositories/accountRepository";
-import userRespository from "../repositories/userRespository";
+import accountRepository from "../model/repositories/accountRepository";
+import userRespository from "../model/repositories/userRespository";
 
 export default class serviceClass {
   private errorConsole = (e: any): void => {
     console.error("Internal error!\n" + e);
+  };
+
+  public loginUser = async ({
+    username,
+    password,
+  }: IBodyUser): Promise<IReturnService> => {
+    const findUser = await this.verifyUser(username);
+
+    if (!findUser) {
+      return {
+        message: "Servel internal error!",
+        status: 500,
+        dataReturn: undefined,
+      };
+    }
+
+    if (
+      typeof findUser === "number" ||
+      bcrypt.compareSync(password, findUser.password)
+    ) {
+      return {
+        message: "Username ou password incorreto!",
+        status: 400,
+        dataReturn: undefined,
+      };
+    }
+
+    return {
+      message: "Login realizado com sucesso!",
+      status: 200,
+      dataReturn: undefined,
+    };
   };
 
   public createUser = async ({

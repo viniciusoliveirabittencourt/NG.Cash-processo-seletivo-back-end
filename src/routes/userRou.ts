@@ -1,11 +1,12 @@
 import { Router } from "express";
 import controllerCon from "../controller/controllerClass";
-import registerBodyVerify from "../middleware/registerBodyVerify";
+import userBodyVerify from "../middleware/userBodyVerify";
 
 const route = Router();
 
 const userController = new controllerCon();
 
-route.post("/register", registerBodyVerify, userController.register);
+route.post("/register", userBodyVerify, userController.register);
+route.post("/login", userBodyVerify)
 
 export default route;
