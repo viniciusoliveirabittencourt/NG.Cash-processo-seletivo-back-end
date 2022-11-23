@@ -20,18 +20,15 @@ export default (
       .send({ message: "Username precisa ter mais de 3 caracters!" });
   }
 
-  const regexStrongPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[0-9a-zA-Z$*&@#]{8,}$/;
-
-  console.log(regexStrongPass.test(password))
+  const regexStrongPass =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[0-9a-zA-Z$*&@#]{7,}$/;
 
   if (!regexStrongPass.test(password)) {
-    return res
-      .status(401)
-      .send({
-        message:
-          "Password muito fraca, deve conter ao mínimo 8 caracteres, uma letra minúscula, uma letra maiúscula e um número",
-      });
+    return res.status(401).send({
+      message:
+        "Password muito fraca, deve conter ao mínimo 8 caracteres, uma letra minúscula, uma letra maiúscula e um número",
+    });
   }
 
-  next()
+  next();
 };

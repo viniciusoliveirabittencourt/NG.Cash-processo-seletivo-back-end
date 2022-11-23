@@ -21,25 +21,22 @@ export default class serviceClass {
       return {
         message: "Servel internal error!",
         status: 500,
-        dataReturn: undefined,
       };
     }
 
     if (
       typeof findUser === "number" ||
-      bcrypt.compareSync(password, findUser.password)
+      !bcrypt.compareSync(password, findUser.password)
     ) {
       return {
         message: "Username ou password incorreto!",
         status: 400,
-        dataReturn: undefined,
       };
     }
 
     return {
       message: "Login realizado com sucesso!",
       status: 200,
-      dataReturn: undefined,
     };
   };
 
@@ -53,7 +50,6 @@ export default class serviceClass {
       return {
         message: "Usuário já existe!",
         status: 400,
-        dataReturn: undefined,
       };
     }
 
@@ -61,7 +57,6 @@ export default class serviceClass {
       return {
         message: "Servel internal error!",
         status: 500,
-        dataReturn: undefined,
       };
     }
 
@@ -71,7 +66,6 @@ export default class serviceClass {
       return {
         message: "Servel internal error!",
         status: 500,
-        dataReturn: undefined,
       };
     }
 
@@ -87,7 +81,6 @@ export default class serviceClass {
       return {
         message: "Usuário cadastrado com sucesso!",
         status: 201,
-        dataReturn: newUser,
       };
     } catch (e) {
       this.errorConsole(e);
@@ -95,7 +88,6 @@ export default class serviceClass {
       return {
         message: "Servel internal error!",
         status: 500,
-        dataReturn: undefined,
       };
     }
   };

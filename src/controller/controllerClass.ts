@@ -9,14 +9,13 @@ export default class controllerCon {
   public register = async (req: Request, res: Response): Promise<Response> => {
     const { username, password }: IBodyUser = req.body;
 
-    const { message, status, dataReturn } = await this.myService.createUser({
+    const { message, status } = await this.myService.createUser({
       username,
       password,
     });
 
     return res.status(status).send({
       message,
-      dataReturn,
     });
   };
 
