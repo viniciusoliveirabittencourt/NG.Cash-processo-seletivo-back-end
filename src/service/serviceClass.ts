@@ -5,6 +5,8 @@ import IBodyUser from "../interface/IBodyUser.interface";
 import IReturnService from "../interface/IReturnService";
 import accountRepository from "../model/repositories/accountRepository";
 import userRespository from "../model/repositories/userRespository";
+import { Transactions } from "../model/entities/Transaction";
+import transactionRespository from "../model/repositories/transactionRespository";
 
 export default class serviceClass {
   private errorConsole = (e: any): void => {
@@ -32,6 +34,30 @@ export default class serviceClass {
       message: "User e account achados.",
       status: 200,
       dataReturn: findUser,
+    };
+  };
+
+  public newTransaction = async (
+    accountOut: Account,
+    accountIn: Account,
+    value: number
+  ): Promise<IReturnService> => {
+    const createTransaction = this.createTransaction(
+      accountOut,
+      accountIn,
+      value
+    );
+
+    if (!createTransaction) {
+      return {
+        message: "Servel internal error!",
+        status: 500,
+      };
+    }
+
+    return {
+      message: "Transaction criada com sucesso!",
+      status: 201,
     };
   };
 
@@ -143,6 +169,28 @@ export default class serviceClass {
       await accountRepository.delete(id);
     } catch (e) {
       this.errorConsole(e);
+    }
+  };
+
+  private createTransaction = async (
+    accountOut: Account,
+    accountIn: Account,
+    value: number
+  ): Promise<Transactions | undefined> => {
+    try {
+      const newTransaction = transactionRespository.create({
+        debitedAccountId: accountOut,
+        creditedAccountId: accountIn,
+        createdAt: Date.now(),
+        value,
+      });
+
+      await accountRepository.save(newTransaction);
+
+      return newTransaction;
+    } catch (e) {
+      this.errorConsole(e);
+      return undefined;
     }
   };
 
