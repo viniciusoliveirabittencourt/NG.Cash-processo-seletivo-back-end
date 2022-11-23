@@ -11,6 +11,30 @@ export default class serviceClass {
     console.error("Internal error!\n" + e);
   };
 
+  public getUser = async (user: string): Promise<IReturnService> => {
+    const findUser = await this.verifyUser(user);
+
+    if (!findUser) {
+      return {
+        message: "Servel internal error!",
+        status: 500,
+      };
+    }
+
+    if (typeof findUser === "number") {
+      return {
+        message: "Usuário inexistente!",
+        status: 400,
+      };
+    }
+
+    return {
+      message: "User e account achados.",
+      status: 200,
+      dataReturn: findUser,
+    };
+  };
+
   public loginUser = async ({
     username,
     password,
@@ -96,7 +120,12 @@ export default class serviceClass {
     username: string
   ): Promise<User | number | undefined> => {
     try {
-      const findUser = await userRespository.findOneBy({ username });
+      const findUser = await userRespository.findOne({
+        where: { username },
+        relations: {
+          accountId: true,
+        },
+      });
 
       if (!findUser) {
         return 1;

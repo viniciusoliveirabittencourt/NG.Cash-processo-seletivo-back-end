@@ -18,7 +18,7 @@ export default (
     return res.status(401).send({ message: "Token must be a valid token" });
   }
 
-  req.headers.user = user.data.role;
+  req.headers.user = user.data.username;
 
   next();
 };
